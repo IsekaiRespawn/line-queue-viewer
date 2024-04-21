@@ -1,7 +1,7 @@
 import React from 'react';
-import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 import type { Session } from 'next-auth';
+import type { NextPage } from 'next';
 import Router from 'next/router';
 import NProgress from 'nprogress';
 import { SessionProvider } from 'next-auth/react';
