@@ -1,4 +1,4 @@
-import { Space, Row, Col, Divider, Input, Button, Card } from 'antd';
+import { Space, Row, Col, Divider, Input, Button, Card, Modal } from 'antd';
 import { WithDefaultLayout } from '../components/DefautLayout';
 import { Page } from '../types/Page';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
@@ -11,6 +11,7 @@ const IndexPage: Page = () => {
     const [line, setLine] = useAtom(lineAtom);
     const { control, handleSubmit } = useForm<CreateCustomerSchemaType>();
     const [uniqueError, setUniqueError] = useState<string | null>();
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
     const onSubmit: SubmitHandler<CreateCustomerSchemaType> = (data) => {
         const randLine: number = Math.floor(Math.random() * 3);
@@ -28,10 +29,8 @@ const IndexPage: Page = () => {
 
         updatedLine[randLine] = [...(updatedLine[randLine] || []), data.name];
         setLine(updatedLine);
-        console.log(updatedLine);
         setUniqueError(null);
-
-
+        setIsModalOpen(true);
     }
 
 
@@ -107,6 +106,17 @@ const IndexPage: Page = () => {
                     </Row>
                 </Col>
             </Row >
+            <Modal
+                open={isModalOpen}
+                onCancel={() => setIsModalOpen(false)}
+                title={(uniqueError ? <h1 className='text-red-400'>Failed</h1> : <h1 className='text-green-400'>Success</h1>)}
+                footer={[
+                    <Button className='hover:bg-blue-400 hover:text-white' key="ok" onClick={() => setIsModalOpen(false)}>Ok</Button>
+                ]}
+            >
+                {uniqueError && <p>{uniqueError}</p>}
+                {!uniqueError && <p>Successfully created a data</p>}
+            </Modal >
         </>
     );
 }
