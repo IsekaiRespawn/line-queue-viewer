@@ -1,4 +1,4 @@
-import { Space, Row, Col, Divider, Input, Button, Card } from 'antd';
+import { Space, Row, Col, Divider, Input, Button, Card, Modal } from 'antd';
 import { WithDefaultLayout } from '../components/DefautLayout';
 import { Page } from '../types/Page';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
@@ -50,7 +50,7 @@ const IndexPage: Page = () => {
     const handleCashier = (cashier: number) => {
         const updatedItem = line.slice();
         if (updatedItem[cashier]?.[0]) {
-            updatedItem[cashier]?.pop();
+            updatedItem[cashier]?.shift();
             setLine(updatedItem)
         }
     }
@@ -58,7 +58,7 @@ const IndexPage: Page = () => {
     return (
         <>
             <Divider orientation='left'>Line Queue Viewer</Divider>
-            <Row className='p-4 bg-slate-900 rounded-xl shadow-xl h-5/6' justify={'center'} align={'bottom'} gutter={[0, 32]}>
+            <Row className='p-10 bg-slate-900 rounded-xl shadow-xl h-5/6' justify={'center'} align={'bottom'} gutter={[0, 32]}>
                 <Col className='self-start' span={24}>
                     <Row gutter={24} >
                         <Col span={8} >
@@ -156,20 +156,20 @@ const IndexPage: Page = () => {
                     </Row>
                 </Col>
             </Row >
-            {/* <Modal
-                    open={isModalOpen}
-                    onCancel={() => setIsModalOpen(false)}
-                    title={(uniqueError ? <h1 className='text-red-400'>Failed</h1> : <h1 className='text-green-400'>Success</h1>)}
-                    footer={[
-                        <Button className='hover:bg-blue-400 hover:text-white' key="ok" onClick={() => setIsModalOpen(false)}>Ok</Button>
-                    ]}
-                >
-                    {uniqueError && <p>{uniqueError}</p>}
-                    {!uniqueError && <p>Successfully created a data</p>}
-                </Modal > */}
-            <AnimatePresence>
+            <Modal
+                open={isModalOpen}
+                onCancel={() => setIsModalOpen(false)}
+                title={(uniqueError ? <h1 className='text-red-400'>Failed</h1> : <h1 className='text-green-400'>Success</h1>)}
+                footer={[
+                    <Button className='hover:bg-blue-400 hover:text-white' key="ok" onClick={() => setIsModalOpen(false)}>Ok</Button>
+                ]}
+            >
+                {uniqueError && <p>{uniqueError}</p>}
+                {!uniqueError && <p>Successfully created a data</p>}
+            </Modal >
+            {/* <AnimatePresence>
                 {isModalOpen && <Toast />}
-            </AnimatePresence>
+            </AnimatePresence> */}
         </>
     );
 }

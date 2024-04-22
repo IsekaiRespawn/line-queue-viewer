@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 const Toast = () => {
     return (
         <motion.div
-            className='fixed bottom-10 bg-green-500 p-4 rounded-xl'
+            className='fixed bottom-10 bg-green-400 p-4 rounded-xl'
             initial={{ opacity: 0, right: -1000 }}
             animate={{ opacity: 1, right: 40 }}
             transition={{ duration: 0.3 }}
