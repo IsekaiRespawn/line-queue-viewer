@@ -7,7 +7,7 @@ import { useAtom } from 'jotai';
 import { lineAtom } from '@/store/line';
 import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion'
-import Toast from '@/components/Toast';
+// import Toast from '@/components/Toast';
 
 const IndexPage: Page = () => {
     const [line, setLine] = useAtom(lineAtom);
@@ -17,10 +17,12 @@ const IndexPage: Page = () => {
 
     const onSubmit: SubmitHandler<CreateCustomerSchemaType> = (data) => {
         const randLine: number = Math.floor(Math.random() * 3);
-        const updatedLine: string[][] = [...(line || [])];
-        if (!updatedLine[randLine]) {
-            updatedLine[randLine] = [];
-        }
+        // const updatedLine: string[][] = [...(line || [])];
+        const updatedLine: string[][] = [...line];
+
+        // if (!updatedLine[randLine]) {
+        //     updatedLine[randLine] = [];
+        // }
 
         if (!data.name) {
             setUniqueError("Name can't be empty");
@@ -33,14 +35,14 @@ const IndexPage: Page = () => {
             setUniqueError('No duplicate names are allowed');
             return;
         }
-        console.log(data.name)
-
 
         updatedLine[randLine] = [...(updatedLine[randLine] || []), data.name];
+        // updatedLine[randLine].push(data.name);
         setLine(updatedLine);
         setUniqueError(null);
         setIsModalOpen(true);
 
+        // Closing modal automatically after 3 seconds
         setTimeout(() => {
             setIsModalOpen(false);
         }, 3000);
@@ -51,7 +53,7 @@ const IndexPage: Page = () => {
         const updatedItem = line.slice();
         if (updatedItem[cashier]?.[0]) {
             updatedItem[cashier]?.shift();
-            setLine(updatedItem)
+            setLine(updatedItem);
         }
     }
 
@@ -63,7 +65,7 @@ const IndexPage: Page = () => {
                     <Row gutter={24} >
                         <Col span={8} >
                             <h1 className='text-center font-bold text-xl text-white'>Cashier 1</h1>
-                            <Space direction='vertical' style={{ width: '100%', gap: '1.5rem' }}>
+                            <Space direction='vertical' className='w-full gap-5'>
                                 {line[0] && line[0].slice(0, 3).map((item, index) => {
                                     return (
                                         <AnimatePresence key={index}>
@@ -77,14 +79,13 @@ const IndexPage: Page = () => {
                                             </motion.div>
 
                                         </AnimatePresence>
-
                                     )
                                 })}
                                 {line[0] && line[0].length > 3 && <Card className='shadow-md'><p className='text-center '>{line[0].length - 3} more</p></Card>}
                             </Space>
                         </Col>
                         <Col span={8}>
-                            <div className=''>
+                            <div>
                                 <h1 className='text-center font-bold text-xl text-white'>Cashier 2</h1>
                                 <Space className='' direction='vertical' style={{ width: '100%', gap: '1.5rem' }}>
                                     {line[1] && line[1].slice(0, 3).map((item, index) => {
@@ -138,7 +139,7 @@ const IndexPage: Page = () => {
                                     name='name'
                                     control={control}
                                     render={({ field }) => (
-                                        <Input {...field} className='shadow-md' size='large' type='text' />
+                                        <Input placeholder='Input name...' autoComplete='off' {...field} className='shadow-md' size='large' type='text' />
                                     )}
                                 />
                                 {uniqueError && <p className='text-red-400 font-bold'>{uniqueError}</p>}
@@ -150,7 +151,6 @@ const IndexPage: Page = () => {
                                 <Button type='default' onClick={() => handleCashier(0)} size='large' className='rounded-lg w-5/6 bg-red-400 font-bold text-white shadow-md'>Handle Cashier #1</Button>
                                 <Button type='default' onClick={() => handleCashier(1)} size='large' className='rounded-lg w-5/6 bg-red-400 font-bold text-white shadow-md'>Handle Cashier #2</Button>
                                 <Button type='default' onClick={() => handleCashier(2)} size='large' className='rounded-lg w-5/6 bg-red-400 font-bold text-white shadow-md'>Handle Cashier #3</Button>
-
                             </div>
                         </Col>
                     </Row>

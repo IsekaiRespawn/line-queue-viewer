@@ -33,7 +33,7 @@ function CustomApp({
         <SessionProvider session={session}
             refetchInterval={120} refetchWhenOffline={false} refetchOnWindowFocus={false}>
             <SessionErrorHandler>
-                {withLayout(<Component {...pageProps} />)}
+                {withLayout(<Component  {...pageProps} />)}
             </SessionErrorHandler>
         </SessionProvider>
     );
